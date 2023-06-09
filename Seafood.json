@@ -1,0 +1,28 @@
+{
+  "seafoods": [
+    {
+      "name": "Tôm hùm",
+      "price": 25000,
+      "avatar": "https://th.bing.com/th/id/OIP.q-d3v5e8CCrCRhnAuXvGvQHaEk?w=302&h=186&c=7&r=0&o=5&pid=1.7",
+      "address": "hà nội",
+      "id": 1,
+      "detail": "Khá ngon"
+    },
+    {
+      "name": "Cua đồng",
+      "price": 32000,
+      "avatar": "https://th.bing.com/th/id/OIP.OKbhRLnBzw4lk4IeiUAWfAHaE4?w=269&h=180&c=7&r=0&o=5&pid=1.7",
+      "address": "Ninh bình",
+      "id": 2,
+      "detail": "khá ngon"
+    },
+    {
+      "name": "Tôm càng đen",
+      "price": 13000,
+      "avatar": "https://th.bing.com/th/id/OIP.Lw333KJ_LgwuPToLdbRQLwHaEU?w=282&h=180&c=7&r=0&o=5&pid=1.7",
+      "address": "Vĩnh Long",
+      "id": 3,
+      "detail": "Tôm nhỏ và bé"
+    }
+  ]
+}

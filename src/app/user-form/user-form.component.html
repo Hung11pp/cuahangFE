@@ -1,0 +1,24 @@
+<p>user-form works!</p>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <label>
+    Name:
+    <br>
+    <input type="text" formControlName="username">
+  </label>
+  <br>
+  <label>
+    password
+    <br>
+    <input type="text" formControlName="password">
+  </label>
+  <br>
+
+  <label>
+   Email
+    <br>
+    <input type="text" formControlName="email">
+  </label>
+  <br>
+
+  <button type="submit" [disabled]="!userForm.valid">Dang Ky</button>
+</form>
