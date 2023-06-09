@@ -1,0 +1,20 @@
+<p>product-form works!</p>
+
+<div class="container">
+    <h1>{{ productId ? 'Update Product' : 'Create Product' }}</h1>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <table class="table">
+        <tr>
+          <td><label for="name">Name:</label></td>
+          <td><input type="text" id="name" formControlName="name" class="form-control" required></td>
+        </tr>
+        <tr>
+          <td><label for="price">Price:</label></td>
+          <td><input type="number" id="price" formControlName="price" class="form-control" required></td>
+        </tr>
+      </table>
+      <button type="submit" class="btn btn-primary">{{ productId ? 'Update' : 'Create' }}</button>
+      <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+    </form>
+  </div>
+  

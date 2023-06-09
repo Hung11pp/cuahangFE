@@ -15,6 +15,9 @@ import { ListProductComponent } from './list-product/list-product.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { ListOrderComponent } from './list-order/list-order.component';
 import { UserFormComponent } from './user-form/user-form.component';
+import { OrderFormComponent } from './order-form/order-form.component';
+import { ProductFormComponent } from './product-form/product-form.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { UserFormComponent } from './user-form/user-form.component';
     ListProductComponent,
     ListUserComponent,
     ListOrderComponent,
-    UserFormComponent
+    UserFormComponent,
+    OrderFormComponent,
+    ProductFormComponent,
+    
   ],
   imports: [
     BrowserModule,

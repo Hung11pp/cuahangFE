@@ -1,1 +1,25 @@
 <p>list-order works!</p>
+<h2>Order List</h2>
+
+<table border="1" style="border-collapse: collapse;">
+    <tr>
+      <th>Order ID</th>
+      <th>Order Date</th>
+      <th>Total Price</th>
+      <th>User ID</th>
+      <th>Products</th>
+    </tr>
+    <tr *ngFor="let order of Orders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.orderDate }}</td>
+      <td>{{ order.totalPrice }}</td>
+      <td>{{ order.user.id }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let product of order.products">{{ product.name }}</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+  
+

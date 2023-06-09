@@ -10,54 +10,50 @@ import { User } from '../model/User';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent {
-  id: number =0;
-  constructor(private apiService: ApiService,
-    private router : Router,
-    private route: ActivatedRoute){}
+  userForm: FormGroup;
+  userId: number | undefined;
 
-  public userForm : any = new FormGroup({
-    id: new FormControl(''),
-    username: new FormControl(''),
-    password: new FormControl(''),
-    email: new FormControl('')
-  });
-
-  ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    this.id = idParam ? +idParam : 0;
-    console.log('id = ', this.id);
-    if (this.id > 0) {
-      this.loadData(this.id);
-    }
+  constructor(
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.userForm = new FormGroup({
+      id: new FormControl(''),
+      username: new FormControl(''),
+      password: new FormControl(''),
+      email: new FormControl('')
+    });
   }
 
-  public onSubmit(): void{
-    var user : User = {
-      id: this.userForm.get('id')?.value,
-      username: this.userForm.get('username')?.value,
-      password: this.userForm.get('password')?.value,
-      email: this.userForm.get('email')?.value,
-      order: []
-    };
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.userId = params['id'];
+      if (this.userId) {
+        this.apiService.getUserById(this.userId).subscribe(user => {
+          this.userForm.setValue({
+            id: user.id,
+            username: user.username,
+            password: user.password,
+            email: user.email
+          });
+        });
+      }
+    });
+  }
 
-    if(this.id>0){
-      this.apiService.updateUser(this.id,user as User).subscribe( (data) => {
-        console.log('Cap nhat User' + data);
+  onSubmit(): void {
+    const user: User = this.userForm.value;
+    if (this.userId) {
+      this.apiService.updateUser(this.userId, user).subscribe(updatedUser => {
+        console.log('User updated:', updatedUser);
         this.router.navigate(['Users']);
       });
     } else {
-      this.apiService.createUser(user as User).subscribe( (data) => {
-        console.log('Them nguoi moi' + data);
+      this.apiService.createUser(user).subscribe(createdUser => {
+        console.log('New user created:', createdUser);
         this.router.navigate(['Users']);
       });
     }
-  }
-
-  private loadData(id: number): void {
-    console.log('load data', id);
-    this.apiService.getUserById(id).subscribe((data) => {
-      console.log('get user: ', data);
-      this.userForm.patchValue(data);
-    });
   }
 }
