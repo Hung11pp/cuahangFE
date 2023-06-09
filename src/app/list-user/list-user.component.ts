@@ -17,12 +17,16 @@ export class ListUserComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers();
   }
+  sttCounter: number = 1;
+  incrementCounter(): void {
+    this.sttCounter++;
+  }
   getUsers(): void {
     this.apiService.getAllUsers().subscribe(users => {
       this.users = users;
     });
   }
-  addUser(): void {
+  createUser(): void {
     this.router.navigate(['user-form']);
   }
   updateUser(id: number, user: User): void {

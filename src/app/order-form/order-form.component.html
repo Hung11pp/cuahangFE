@@ -1,34 +1,28 @@
+
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <table>
-      <tr>
-        <th>Order ID</th>
-        <td><input type="number" formControlName="id" required></td>
-      </tr>
-      <tr>
-        <th>Order Date</th>
-        <td><input type="date" formControlName="orderDate" required></td>
-      </tr>
-      <tr>
-        <th>Total Price</th>
-        <td><input type="number" formControlName="totalPrice" required></td>
-      </tr>
-      <tr>
-        <th>User</th>
-        <td>
-          <select formControlName="userId" required>
-            <option *ngFor="let user of users" [value]="user.id">{{ user.username }}</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <th>Products</th>
-        <td>
-          <select multiple formControlName="productIds" required>
-            <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-          </select>
-        </td>
-      </tr>
-    </table>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  
+  <table>
+    <tr>
+      <td><label for="orderDate">Order Date:</label></td>
+      <td><input type="date" id="orderDate" formControlName="orderDate" required></td>
+    </tr>
+    <tr>
+      <td><label for="userId">User:</label></td>
+      <td>
+        <select id="userId" formControlName="userId" required>
+          <option value="">-- Select User --</option>
+          <option *ngFor="let user of users" [value]="user.id">{{user.username}}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><label for="productIds">Products:</label></td>
+      <td>
+        <select multiple id="productIds" formControlName="productIds" required>
+          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+
+  <button type="submit" [disabled]="!orderForm.valid">Xác nhận</button>
+</form>

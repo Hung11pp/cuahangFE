@@ -1,24 +1,36 @@
-<p>user-form works!</p>
+
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <label>
-    Name:
-    <br>
-    <input type="text" formControlName="username">
-  </label>
-  <br>
-  <label>
-    password
-    <br>
-    <input type="text" formControlName="password">
-  </label>
-  <br>
+  <table border="1" style="border-collapse: collapse;">
+    <tr>
+      <th><label>
+        Name:
+        <br>
 
-  <label>
-   Email
-    <br>
-    <input type="text" formControlName="email">
-  </label>
-  <br>
+      </label></th>
+      <td>
+        <input type="text" formControlName="username">
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <label>
+          password
+          <br>
 
-  <button type="submit" [disabled]="!userForm.valid">Dang Ky</button>
+        </label>
+      </th>
+      <td><input type="password" formControlName="password"></td>
+    </tr>
+    <tr>
+      <th><label>
+        Email
+        <br>
+
+      </label></th>
+      <td><input type="text" formControlName="email"></td>
+    </tr>
+    <tr><button type="submit" [disabled]="!userForm.valid">Dang Ky</button></tr>
+  </table>
+<br>
+ <br>
 </form>

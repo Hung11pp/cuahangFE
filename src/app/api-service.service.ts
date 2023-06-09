@@ -68,9 +68,11 @@ export class ApiService {
     return this.http.get<Product[]>(this.baseUrl + 'products/search', { params: { name } });
   }
   addProductToOrder(orderId: number, productId: number): Observable<Order> {
-    return this.http.post<Order>(this.baseUrl + `orders/${orderId}/products/${productId}`, null);
+    return this.http.post<Order>(this.baseUrl + `orders/${orderId}/products/${productId}`,null);
   }
-
+  removeProductFromOrder(orderId: number, productId: number): Observable<Order> {
+    return this.http.delete<Order>(this.baseUrl + `orders/${orderId}/products/${productId}`);
+  }
 
 
 }

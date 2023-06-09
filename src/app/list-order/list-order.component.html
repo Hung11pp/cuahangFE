@@ -1,25 +1,37 @@
-<p>list-order works!</p>
-<h2>Order List</h2>
+<app-home></app-home>
+<h2>Danh sách đơn hàng</h2>
+
 
 <table border="1" style="border-collapse: collapse;">
-    <tr>
-      <th>Order ID</th>
-      <th>Order Date</th>
-      <th>Total Price</th>
-      <th>User ID</th>
-      <th>Products</th>
-    </tr>
-    <tr *ngFor="let order of Orders">
-      <td>{{ order.id }}</td>
-      <td>{{ order.orderDate }}</td>
-      <td>{{ order.totalPrice }}</td>
-      <td>{{ order.user.id }}</td>
-      <td>
-        <ul>
-          <li *ngFor="let product of order.products">{{ product.name }}</li>
-        </ul>
-      </td>
-    </tr>
-  </table>
-  
+
+
+  <tr>
+    <th>Order ID</th>
+    <th>Order Date</th>
+    <th>Total Price</th>
+    <th>User</th>
+    <th>Products</th>
+    <th>Actions</th> <!-- Thêm cột cho các hành động -->
+  </tr>
+  <tr *ngFor="let order of Orders; let i = index">
+    <td>{{ sttCounter + i }}</td>
+    <td>{{ order.orderDate }}</td>
+    <td>{{ order.totalPrice }}</td>
+    <td>{{ order.user.username }}</td>
+    <td style="width: 200px;">
+      <tr *ngFor="let product of order.products">
+        <td style="width: 100%;">{{ product.name }}</td>
+        <td><button (click)="removeProductFromOrder(order.id, product.id)">Xóa</button></td>
+      </tr>
+
+    </td>
+    <td>
+      <button (click)="deleteOrder(order.id)">Xóa đơn hàng</button>
+      <button (click)="updateOrder(order.id, order)">Cập nhật đơn hàng</button>
+    </td>
+  </tr>
+</table>
+<button (click)="createOrder()">Tạo đơn hàng mới</button>
+
+
 

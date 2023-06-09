@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
 import { User } from '../model/User';
@@ -20,9 +20,9 @@ export class UserFormComponent {
   ) {
     this.userForm = new FormGroup({
       id: new FormControl(''),
-      username: new FormControl(''),
-      password: new FormControl(''),
-      email: new FormControl('')
+      username: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required),
+      email: new FormControl('',Validators.required)
     });
   }
 

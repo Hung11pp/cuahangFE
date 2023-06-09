@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api-service.service';
 import { User } from '../model/User';
 import { Product } from '../model/Product';
@@ -14,12 +15,15 @@ export class OrderFormComponent implements OnInit {
   orderForm: FormGroup;
   users: User[] = [];
   products: Product[] = [];
+  orderId!: number;
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
     this.orderForm = new FormGroup({
-      id: new FormControl('', Validators.required),
       orderDate: new FormControl('', Validators.required),
-      totalPrice: new FormControl('', Validators.required),
       userId: new FormControl('', Validators.required),
       productIds: new FormControl('', Validators.required)
     });
@@ -28,6 +32,12 @@ export class OrderFormComponent implements OnInit {
   ngOnInit(): void {
     this.loadUsers();
     this.loadProducts();
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.orderId = +params['id']; // Ép kiểu sang kiểu number
+      }
+    });
   }
 
   loadUsers(): void {
@@ -45,18 +55,27 @@ export class OrderFormComponent implements OnInit {
   onSubmit(): void {
     if (this.orderForm.valid) {
       const order: Order = {
-        id: this.orderForm.value.id,
-        orderDate: this.orderForm.value.orderDate,
-        totalPrice: this.orderForm.value.totalPrice,
-        user: this.users.find(user => user.id === this.orderForm.value.userId)!,
-        products: this.products.filter(product =>
-          this.orderForm.value.productIds.includes(product.id)
-        )
+        id: this.orderId || 0,
+        totalPrice: 0,
+        orderDate: this.orderForm.value['orderDate'],
+        user: { id: this.orderForm.value['userId'] } as User,
+        products: this.orderForm.value['productIds'].map((productId: number) => ({
+          id: productId
+        })) as Product[]
       };
 
-      this.apiService.createOrder(order).subscribe(createdOrder => {
-        console.log('New order created:', createdOrder);
-      });
+      if (this.orderId) {
+        this.apiService.updateOrder(this.orderId, order).subscribe(updatedOrder => {
+          console.log('Order updated:', updatedOrder);
+          this.router.navigate(['Orders']);
+        });
+      } else {
+        this.apiService.createOrder(order).subscribe(createdOrder => {
+          console.log('New order created:', createdOrder);
+          this.router.navigate(['Orders']);
+        });
+      }
     }
   }
+
 }

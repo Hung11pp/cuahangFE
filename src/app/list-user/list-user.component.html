@@ -1,7 +1,5 @@
-<p>list-user works!</p>
-
-
-<h2>User List</h2>
+<app-home></app-home>
+<h2>Danh sách người dùng</h2>
 
 <table>
   <thead>
@@ -13,8 +11,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.id }}</td>
+    <tr *ngFor="let user of users; let i = index">
+      <td>{{ sttCounter + i }}</td>
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>
@@ -25,4 +23,4 @@
   </tbody>
 </table>
 
-<button (click)="addUser()">Add User</button>
+<button (click)="createUser()">Add User</button>

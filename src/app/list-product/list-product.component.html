@@ -1,29 +1,38 @@
-<p>list-product works!</p>
-
+<app-home></app-home>
+<h1>Product List</h1>
+<h4>Tìm kiếm</h4>
+<input type="text" [formControl]="searchControl" placeholder="Search by name">
 <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products">
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.price }}</td>
-        <td>
-          <button (click)="updateProduct(product.id, product)">Update</button>
-        </td>
-        <td>
-          <button (click)="deleteProduct(product.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <button (click)="addProduct()">Add Product</button>
-  
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Detail</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products; let i = index">
+      <td>{{ sttCounter + i }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{product.detail}}</td>
+      <td>
+        <button (click)="updateProduct(product.id, product)">Update</button>
+      </td>
+      <td>
+        <button (click)="deleteProduct(product.id)">Delete</button>
+      </td>
+      <td>
+        <select [(ngModel)]="selectedOrderId">
+          <option *ngFor="let order of Orders" [value]="order.id">{{ order.id }}</option>
+        </select>
+
+        <button (click)="addProductToOrder(product.id)">Add to Order</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="createProduct()">Add Product</button>

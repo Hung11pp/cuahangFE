@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../model/Product';
 import { ApiService } from '../api-service.service';
 import { Router } from '@angular/router';
+import { Order } from '../model/Order';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-list-product',
@@ -10,11 +14,27 @@ import { Router } from '@angular/router';
 })
 export class ListProductComponent implements OnInit {
   products: Product[] = [];
+  Orders: Order[] = [];
+  selectedOrderId: number = 0;
+  searchControl = new FormControl('');
+
 
   constructor(private apiService: ApiService, private router: Router) {}
 
+  sttCounter: number = 1;
+  incrementCounter(): void {
+    this.sttCounter++;
+  }
+
   ngOnInit(): void {
     this.getProducts();
+    this.getOrders();
+
+    this.searchControl.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+    this.searchProducts(value);
+  });
+
+
   }
 
   getProducts(): void {
@@ -23,7 +43,13 @@ export class ListProductComponent implements OnInit {
     });
   }
 
-  addProduct(): void {
+  getOrders(): void {
+    this.apiService.getAllOrders().subscribe(orders => {
+      this.Orders = orders;
+    });
+  }
+
+  createProduct(): void {
     this.router.navigateByUrl('/product-form');
   }
 
@@ -32,12 +58,7 @@ export class ListProductComponent implements OnInit {
     const url = `/product-form?id=${queryParams.id}`;
     this.router.navigateByUrl(url);
 
-    this.apiService.updateProduct(id, product).subscribe(updatedProduct => {
-      // Xử lý khi cập nhật product thành công
-      console.log('Product updated:', updatedProduct);
-      // Refresh danh sách product
-      this.getProducts();
-    });
+
   }
 
   deleteProduct(id: number): void {
@@ -48,4 +69,24 @@ export class ListProductComponent implements OnInit {
       this.getProducts();
     });
   }
+
+  addProductToOrder(id:number): void {
+    this.apiService.addProductToOrder(this.selectedOrderId, id).subscribe(updatedOrder => {
+      console.log('Product added to order:', updatedOrder);
+      this.getProducts();
+    });
+  }
+  searchProducts(name: string | null): void {
+    const searchName = name || ''; // Chuyển đổi null thành chuỗi trống
+
+    if (searchName.trim() !== '') {
+      this.apiService.searchProductsByName(searchName).subscribe(products => {
+        this.products = products;
+      });
+    } else {
+      // Nếu không có tên sản phẩm được nhập, hiển thị tất cả sản phẩm
+      this.getProducts();
+    }
+  }
+
 }
